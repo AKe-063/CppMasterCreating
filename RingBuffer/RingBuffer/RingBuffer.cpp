@@ -75,56 +75,56 @@ void RingBuffer::push(const char* addData, const size_t dataLength)
 
 void RingBuffer::pop(char* outStr, const size_t dataLength)
 {
-// 	if (_size != 0)
-// 	{
-// 		auto temp = '\0';
-// 		if (_size < dataLength)
-// 		{
-// 			auto bTailSizeEnough = _capacity - (head - data);
-// 			if (bTailSizeEnough < _size)
-// 			{
-// 				memcpy(outStr, head, bTailSizeEnough);
-// 				memcpy(outStr + bTailSizeEnough, data, _size - bTailSizeEnough - 1);
-// 				memcpy(data, &temp, _capacity);
-// 			}
-// 			else
-// 			{
-// 				memcpy(outStr, head, _size);
-// 				memcpy(data, &temp, _capacity);
-// 			}
-// 			head = rear;
-// 			rear = data + (head - data + 1) % _capacity;
-// 			//memcpy(head, &temp, 1);
-// 			memcpy(outStr + _size, &temp, 1);
-// 		}
-// 		else
-// 		{
-// 			auto bTailSizeEnough = _capacity - (head - data);
-// 			if (bTailSizeEnough < dataLength)
-// 			{
-// 				memcpy(outStr, head, bTailSizeEnough);
-// 				memcpy(head, &temp, bTailSizeEnough);
-// 				memcpy(outStr + bTailSizeEnough, data, dataLength - bTailSizeEnough);
-// 				memcpy(data, &temp, dataLength - bTailSizeEnough);
-// 				head = data + (dataLength - bTailSizeEnough);
-// 			}
-// 			else
-// 			{
-// 				memcpy(outStr, head, dataLength);
-// 				memcpy(head, &temp, dataLength);
-// 				head = head + dataLength;
-// 			}
-// 			memcpy(outStr + dataLength - 1, &temp, 1);
-// 		}
-// 		if (_size < dataLength)
-// 		{
-// 			_size = 0;
-// 		}
-// 		else
-// 		{
-// 			_size -= dataLength;
-// 		}
-// 	}
-// 	else
-// 		outStr = nullptr;
+	if (_size != 0)
+	{
+		auto temp = '\0';
+		if (_size < dataLength)
+		{
+			auto bTailSizeEnough = _capacity - (head - data);
+			if (bTailSizeEnough < _size)
+			{
+				memcpy(outStr, head, bTailSizeEnough);
+				memcpy(outStr + bTailSizeEnough, data, _size - bTailSizeEnough - 1);
+				memcpy(data, &temp, _capacity);
+			}
+			else
+			{
+				memcpy(outStr, head, _size);
+				memcpy(data, &temp, _capacity);
+			}
+			head = rear;
+			rear = data + (head - data + 1) % _capacity;
+			//memcpy(head, &temp, 1);
+			memcpy(outStr + _size, &temp, 1);
+		}
+		else
+		{
+			auto bTailSizeEnough = _capacity - (head - data);
+			if (bTailSizeEnough < dataLength)
+			{
+				memcpy(outStr, head, bTailSizeEnough);
+				memcpy(head, &temp, bTailSizeEnough);
+				memcpy(outStr + bTailSizeEnough, data, dataLength - bTailSizeEnough);
+				memcpy(data, &temp, dataLength - bTailSizeEnough);
+				head = data + (dataLength - bTailSizeEnough);
+			}
+			else
+			{
+				memcpy(outStr, head, dataLength);
+				memcpy(head, &temp, dataLength);
+				head = data + ((head - data) + dataLength) % _capacity;
+			}
+			memcpy(outStr + dataLength - 1, &temp, 1);
+		}
+		if (_size < dataLength)
+		{
+			_size = 0;
+		}
+		else
+		{
+			_size -= dataLength;
+		}
+	}
+	else
+		outStr = nullptr;
 }
