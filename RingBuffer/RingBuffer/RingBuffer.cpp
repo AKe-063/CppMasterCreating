@@ -94,7 +94,7 @@ void RingBuffer::pop(char* outStr, const size_t dataLength)
 			}
 			head = rear;
 			rear = data + (head - data + 1) % _capacity;
-			//memcpy(head, &temp, 1);
+			// memcpy(head, &temp, 1);
 			memcpy(outStr + _size, &temp, 1);
 		}
 		else
