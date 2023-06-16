@@ -16,7 +16,7 @@ public:
 		this->prev = prev;
 		this->next = next;
 	}
-	template<class T> friend std::ostream& operator<<(std::ostream& os, const KeNode<T>& keNode)
+	friend std::ostream& operator<<(std::ostream& os, const KeNode<T>& keNode)
 	{
 		os << keNode.value << std::endl;
 		return os;
@@ -36,7 +36,17 @@ public:
 	void remove(KeNode<T>* const node);
 	void popAll();
 
-	template<class T> friend std::ostream& operator<<(std::ostream& os, const KeList<T>& keList);
+	friend std::ostream& operator<<(std::ostream& os, const KeList<T>& keList)
+	{
+		KeNode<T>* tempPtr = keList.headPtr->next;
+		while (tempPtr != keList.headPtr)
+		{
+			os << tempPtr->value;
+			tempPtr = tempPtr->next;
+		}
+
+		return os << std::endl;
+	}
 
 protected:
 	bool findNode(KeNode<T>* const node);
@@ -132,19 +142,6 @@ KeNode<T>* KeList<T>::push(const T& data)
 	headPtr->prev = tempNode;
 
 	return tempNode;
-}
-
-template<class T>
-std::ostream& operator<< (std::ostream& os, const KeList<T>& keList)
-{
-	KeNode<T>* tempPtr = keList.headPtr->next;
-	while (tempPtr != keList.headPtr)
-	{
-		os << tempPtr->value << std::endl;
-		tempPtr = tempPtr->next;
-	}
-
-	return os;
 }
 
 template<class T>
