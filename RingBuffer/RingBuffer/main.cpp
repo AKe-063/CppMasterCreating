@@ -8,22 +8,16 @@ int main()
     auto buffer = new RingBuffer(initSize);
     srand(time(NULL));
     int length = strlen(data) + 1;
-    for (int ii = 0; ii < 1000; ii++)
+    for (int ii = 0; ii < 10; ii++)
     {
-        int pushCount = rand() % 10;
+        const int pushCount = rand() % 10;
         for (int jj = 0; jj < pushCount; jj++)
             buffer->push(data, length);
 
-        char out[128];
-        int ppoCount = rand() % 10;
-        for (int jj = 0; jj < ppoCount; jj++)
-        {
+        char out[5];
+        const int popCount = rand() % 10;
+        for (int jj = 0; jj < popCount; jj++)
             buffer->pop(&out[0], sizeof(out));
-            if (out)
-            {
-                std::cout << out << std::endl;
-            }
-        }
     }
     delete buffer;
 }

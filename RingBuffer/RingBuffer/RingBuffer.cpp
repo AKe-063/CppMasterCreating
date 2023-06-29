@@ -1,5 +1,8 @@
 #include "RingBuffer.h"
 
+#include <iostream>
+#include <string.h>
+
 RingBuffer::RingBuffer(const size_t memorySize)
 {
 	_size = 0;
@@ -71,6 +74,7 @@ void RingBuffer::push(const char* addData, const size_t dataLength)
 		}
 	}
 	_size += dataLength - 1;
+	this->printData();
 }
 
 void RingBuffer::pop(char* outStr, const size_t dataLength)
@@ -127,4 +131,6 @@ void RingBuffer::pop(char* outStr, const size_t dataLength)
 	}
 	else
 		outStr = nullptr;
+
+	this->printData();
 }
