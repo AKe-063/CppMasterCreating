@@ -3,7 +3,7 @@
 
 #include "KStack.h"
 
-void main()
+int main()
 {
     KStack<std::string>* stack = new KStack<std::string>(3);
     for (auto i = 0; i < 4; i++)
@@ -17,4 +17,5 @@ void main()
     }
 
     delete stack;
+    return 0;
 }
