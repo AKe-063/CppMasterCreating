@@ -13,6 +13,10 @@ public:
     OctreePoint(const KVec3 &initPos) : pos(initPos){};
     inline const KVec3 &getOctreePoint() const { return pos; };
     inline void setOctreePoint(const KVec3 &newPos) { pos = newPos; };
+    friend std::ostream &operator<<(std::ostream &os, const OctreePoint &octreePoint)
+    {
+        return os << octreePoint.getOctreePoint() << std::endl;
+    }
 };
 
 #endif

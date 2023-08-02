@@ -6,6 +6,8 @@
 #include <iostream>
 #include <vector>
 
+int testNumber = 0;
+
 namespace KOctree
 {
     using UINT = unsigned int;
@@ -21,6 +23,14 @@ namespace KOctree
         Octree(const KVec3 &org, const KVec3 &depth) : origin(org), halfDepth(depth){};
         // Octree(const Octree &copyTree) : origin(copyTree.origin), depth(copyTree.depth), data(copyTree.data){};
         Octree(const Octree &copyTree) = delete;
+        ~Octree()
+        {
+            for (auto childTree : childTrees)
+            {
+                delete childTree;
+                childTree = nullptr;
+            };
+        }
 
     protected:
         inline bool isLeafNode() const { return childTrees[0] == nullptr; };
@@ -67,7 +77,36 @@ namespace KOctree
             childTrees[getPointInChildBoxIndex(*point)]->insert(point);
         };
 
-        void getPointsInsideBox(const KVec3 &rangeMin, const KVec3 &rangeMax, std::vector<OctreePoint> results){};
+        void getPointsInsideBox(const KVec3 &rangeMin, const KVec3 &rangeMax, std::vector<OctreePoint *> &results)
+        {
+            if (isLeafNode())
+            {
+                if (data == nullptr)
+                    return;
+
+                auto &&pos = data->getOctreePoint();
+                if ((pos.x > rangeMin.x && pos.y > rangeMin.y && pos.z > rangeMin.z) && (pos.x < rangeMax.x && pos.y < rangeMax.y && pos.z < rangeMax.z))
+                    results.push_back(data);
+
+                return;
+            }
+
+            for (auto i = 0; i < 8; i++)
+            {
+                auto childTree = childTrees[i];
+                auto childRangeMax = childTree->origin + childTree->halfDepth;
+                auto childRangeMin = childTree->origin - childTree->halfDepth;
+
+                // search is a range, like a box, the box bound is minRange and maxRange.
+                // we need get all points in the box.
+                if (childRangeMin.x > rangeMax.x || childRangeMin.y > rangeMax.y || childRangeMin.z > rangeMax.z)
+                    continue;
+                if (childRangeMax.x < rangeMin.x || childRangeMax.y < rangeMin.y || childRangeMax.z < rangeMin.z)
+                    continue;
+
+                childTree->getPointsInsideBox(rangeMin, rangeMax, results);
+            }
+        };
     };
 }
 #endif
