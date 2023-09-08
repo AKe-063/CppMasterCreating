@@ -55,7 +55,9 @@
             "iomanip": "cpp",
             "random": "cpp",
             "xlocmon": "cpp",
-            "xloctime": "cpp"
-        }
+            "xloctime": "cpp",
+            "sstream": "cpp"
+        },
+        "cSpell.words": ["Partiti", "Patiti"]
     }
 }
